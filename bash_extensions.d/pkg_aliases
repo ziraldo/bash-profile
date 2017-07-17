@@ -1,0 +1,36 @@
+# Package aliases
+
+source ~/.bash_extensions.d/os_type
+
+if [[ -n "$IS_UBUNTU" ]]; then
+    alias pkginfo='dpkg -s'
+    alias pkgconffiles='dpkg -s'
+    alias pkgdep='apt-cache depends'
+    alias pkgrdep='apt-cache rdepends'
+    alias pkglist='dpkg -l'
+    alias pkglistver='apt-cache madison'
+    alias pkgfilelist='dpkg -L'
+    alias pkgfilesearch='dpkg -S'
+fi
+
+if [[ -n "$IS_RHEL6" || -n "$IS_CENTOS6" || -n "$IS_RHEL7" || -n "$IS_CENTOS7" ]]; then
+    alias pkginfo='rpm -qid'
+    alias pkgconffiles='rpm -qc'
+    alias pkgdep='rpm -qR'
+    alias pkgrdep='rpm -q --whatrequires'
+    alias pkglist='rpm -qa | sort'
+    alias pkglistver='sudo yum list --showduplicates'
+    alias pkgfilelist='rpm -ql'
+    alias pkgfilesearch='yum whatprovides'
+fi
+
+if [[ -n "$IS_SOLARIS" ]]; then
+    alias pkginfo='dpkg -s'
+    alias pkgconffiles='dpkg -s'
+    alias pkgdep='apt-cache depends'
+    alias pkgrdep='apt-cache rdepends'
+    alias pkglist='dpkg -l'
+    alias pkglistver='apt-cache madison'
+    alias pkgfilelist='dpkg -L'
+    alias pkgfilesearch='dpkg -S'
+fi

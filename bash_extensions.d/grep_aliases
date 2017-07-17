@@ -1,0 +1,5 @@
+# Add color to grep
+if echo hello|grep --color=auto l >/dev/null 2>&1; then
+    alias grep='grep --color=auto'
+    export GREP_COLOR='1;32'
+fi

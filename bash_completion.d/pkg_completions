@@ -1,0 +1,63 @@
+# Package completions
+
+source ~/.bash_extensions.d/os_type
+
+if [[ -n "$IS_UBUNTU" ]]; then
+    PKG_LIST=$(dpkg -l | tail -n +6 | awk '{print $2}')
+fi
+
+if [[ -n "$IS_RHEL6" || -n "$IS_CENTOS6" || -n "$IS_RHEL7" || -n "$IS_CENTOS7" ]]; then
+    PKG_LIST=$(rpm -qa)
+fi
+
+if [[ -n "$IS_SOLARIS" ]]; then
+    PKG_LIST=$(dpkg -l | tail -n +6 | awk '{print $2}')
+fi
+
+_pkgconffiles_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${PKG_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _pkgconffiles_complete pkgconffiles
+
+_pkgfilelist_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${PKG_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _pkgfilelist_complete pkgfilelist
+
+_pkginfo_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${PKG_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _pkginfo_complete pkginfo
+
+_pkglistver_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${PKG_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _pkglistver_complete pkglistver
+
+_pkgrdep_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${PKG_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _pkgrdep_complete pkgrdep
+
+_pkgdep_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${PKG_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _pkgdep_complete pkgdep

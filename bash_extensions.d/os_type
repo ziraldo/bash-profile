@@ -1,0 +1,37 @@
+# Set os type variables
+
+case "$OSTYPE" in
+    darwin*)
+        IS_OSX=1
+        ;;
+
+    solaris*)
+        IS_SOLARIS=1
+        ;;
+
+    linux*)
+        if [ -e /etc/redhat-release ]; then
+            cat /etc/redhat-release | grep 'release 6' > /dev/null
+            if [ $? -eq 0 ]; then
+                IS_RHEL6=1
+            fi
+            cat /etc/redhat-release | grep 'release 7' > /dev/null
+            if [ $? -eq 0 ]; then
+                IS_RHEL7=1
+            fi
+        fi
+        if [ -e /etc/centos-release ]; then
+            cat /etc/centos-release | grep 'release 6' > /dev/null
+            if [ $? -eq 0 ]; then
+                IS_CENTOS6=1
+            fi
+            cat /etc/centos-release | grep 'release 7' > /dev/null
+            if [ $? -eq 0 ]; then
+                IS_CENTOS7=1
+            fi
+        fi
+        if [ -e /etc/lsb-release ]; then
+            IS_UBUNTU=1
+        fi
+        ;;
+esac

@@ -1,0 +1,16 @@
+if [ `which ocron-adm 2>/dev/null` ]; then
+    CRON_LIST=$(ls /oanda/etc/ocron/ | sed 's/\.ocronjob\.conf//')
+fi
+_ocron_complete()
+{
+  COMPREPLY=()
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${CRON_LIST}
+  if [ $COMP_CWORD -eq 1 ]; then
+    COMPREPLY=( $(compgen -W "dump list run start status start" -- $cur) )
+  elif [ $COMP_CWORD -eq 2 ]; then
+    COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+  fi
+}
+complete -o nospace -F _ocron_complete ocron
+

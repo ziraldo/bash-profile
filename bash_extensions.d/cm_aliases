@@ -1,0 +1,16 @@
+# CM aliases
+
+source ~/.bash_extensions.d/os_type
+
+if [[ -n "$IS_UBUNTU" ]]; then
+    alias int=''
+fi
+
+if [[ -n "$IS_RHEL6" || -n "$IS_CENTOS6" || -n "$IS_RHEL7" || -n "$IS_CENTOS7" ]]; then
+    alias int='sudo puppet agent -t'
+fi
+
+if [[ -n "$IS_SOLARIS" ]]; then
+    alias int='sudo /oanda/bcfg2/bin/bcfg2_interactive'
+    alias cli='/oanda/bcfg2/bin/bcfg2cli'
+fi

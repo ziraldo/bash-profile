@@ -1,0 +1,16 @@
+# Service aliases
+
+source ~/.bash_extensions.d/os_type
+
+if [[ -n "$IS_UBUNTU" ]]; then
+    alias ops=''
+fi
+
+if [[ -n "$IS_RHEL6" || -n "$IS_CENTOS6" || -n "$IS_RHEL7" || -n "$IS_CENTOS7" ]]; then
+    alias ops='ps -eo user,pid,stime,time,command | grep -v "`cat ~/.bash_misc_files/ps_excludes`" | sort -u'
+    alias ptree='ps axjf'
+fi
+
+if [[ -n "$IS_SOLARIS" ]]; then
+    alias ops=''
+fi

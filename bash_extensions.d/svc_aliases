@@ -1,0 +1,33 @@
+# Service aliases
+
+source ~/.bash_extensions.d/os_type
+
+if [[ -n "$IS_SOLARIS" ]]; then
+    alias svc='svcs -a | grep -E "oanda|apache"'
+    alias svcinfo='svcs -l'
+    alias restart='sudo svcadm restart'
+    alias stop='sudo svcadm disable -s'
+    alias start='sudo svcadm enable -st'
+fi
+
+if [[ -n "$IS_RHEL6" || -n "$IS_CENTOS6" ]]; then
+    alias svc='initctl list | grep -E "oanda|apache|cassandra|zabbix" | sort'
+    alias svcinfo='initctl status'
+    alias restart='sudo initctl restart'
+    alias stop='sudo initctl stop'
+    alias start='sudo initctl start'
+fi
+
+if [[ -n "$IS_RHEL7" || -n "$IS_CENTOS7" ]]; then
+    alias svc='systemctl list-units --all --state=active,inactive | grep -v "`cat ~/.bash_misc_files/svc_excludes`" | awk '"'"'{printf "%s %s %s %s\n", $1, $2, $3, $4 }'"'"' | sed "s/\.service//g" | sort | column -t'
+    alias svcinfo='function _svcinfo(){ systemctl status $1.service; };_svcinfo'
+    alias svckill='function _svcinfo(){ sudo systemctl kill $1.service; };_svcinfo'
+    alias restart='function _restart(){ sudo systemctl restart $1.service; };_restart'
+    alias stop='function _stop(){ sudo systemctl stop $1.service; };_stop'
+    alias start='function _start(){ sudo systemctl start $1.service; };_start'
+fi
+
+if [[ -n "$IS_UBUNTU" ]]; then
+    # TODO
+    alias svc='service --status-all | grep -E "oanda|apache|cassandra|zabbix" | sort'
+fi

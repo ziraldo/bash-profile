@@ -1,0 +1,57 @@
+# Service completions
+
+source ~/.bash_extensions.d/os_type
+
+if [[ -n "$IS_UBUNTU" ]]; then
+    SERVICE_LIST=$(service --status-all | awk '{print $4}')
+fi
+
+if [[ -n "$IS_RHEL6" || -n "$IS_CENTOS6" || -n "$IS_RHEL7" || -n "$IS_CENTOS7" ]]; then
+    if [ -d /usr/lib/systemd/system ]; then
+        SERVICE_LIST=$(ls /usr/lib/systemd/system | sed 's/\.service//')
+    fi
+fi
+
+if [[ -n "$IS_SOLARIS" ]]; then
+    SERVICE_LIST=$(svcs -a | awk '{print $3}' | sed 's|svc\:/||g' | sed 's|\:default||g' | awk '{n = split( $1, a, "/" ); printf("%s\n", a[n])}')
+fi
+
+_start_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${SERVICE_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _start_complete start
+
+_stop_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${SERVICE_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _stop_complete stop
+
+_svcinfo_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${SERVICE_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _svcinfo_complete svcinfo
+
+_svckill_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${SERVICE_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _svckill_complete svckill
+
+_restart_complete()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local use=${SERVICE_LIST}
+  COMPREPLY=( $( compgen -W "$use" -- $cur ) )
+}
+complete -o nospace -F _restart_complete restart

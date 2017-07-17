@@ -1,0 +1,15 @@
+# Misc aliases
+
+source ~/.bash_extensions.d/os_type
+
+if [[ -n "$IS_OSX" ]]; then
+    alias ls='ls -G'
+else
+    alias ls='ls --color=auto'
+fi
+
+alias ed='vim'
+alias gsu='git submodule update --init'
+alias ll='ls -lah'
+alias diffy='diff -y --suppress-common-lines'
+alias vi='vim'
